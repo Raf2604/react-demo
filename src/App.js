@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import Myname from './modules/about-me.js'
-import AboutMe from './modules/name.js'
+import AboutMe from './modules/about-me.js'
+import Myname from './modules/name.js'
 
 
 function App() {

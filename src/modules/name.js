@@ -1,10 +1,10 @@
-function AboutMe(props){
+function Myname(){
+    const name="Rafayel";
     return (
         <div>
-            <h4>I am {props.age}. My favorite favorite sport is {props.sport}.</h4>
-            <h5>My lovely football club is {props.club}.</h5>
+            <h1>Hello! I am {name}</h1>
         </div>
     );
   }
 
-export default AboutMe;
+export default Myname;
