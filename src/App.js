@@ -1,10 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
+import Myname from './modules/about-me.js'
+import AboutMe from './modules/name.js'
+
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <Myname/>
+        <AboutMe 
+          age={19} 
+          sport="football"
+          club="Barcelona"
+        />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -22,4 +31,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
