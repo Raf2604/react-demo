@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import AboutMe from './modules/about-me.js'
-import Myname from './modules/name.js'
+import {AboutMe} from './homework4/about-me.js'
+import Myname from './homework4/name.js'
 
 
 function App() {
