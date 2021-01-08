@@ -1,9 +1,9 @@
-import React, {Component} from "react";
+import React, {Component} from 'react';
 import Name from './Name.jsx';
 import Price from './Price.jsx';
 import Description from './Description.jsx';
 
-class Product extends Component{
+class Products extends Component{
     
     
     render(){
@@ -17,4 +17,4 @@ class Product extends Component{
         )
     }
 }
-export default Product;
+export default Products;
