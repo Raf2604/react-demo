@@ -13,7 +13,19 @@ h1{
     cursor: pointer;
     margin-left: 5px;
 }
-.btn-addItem:focus{
+.btn-resetList{
+    width: 90px;
+    height: 36px;
+    border: 0px;
+    background: red;
+    font-size: 16px;
+    font-family: monospace;
+    color: white;
+    cursor: pointer;
+    margin-left: 5px;
+}
+.btn-addItem:focus,
+.btn-resetList:focus{
     outline: 0px;
 }
 .inputList{
@@ -34,7 +46,7 @@ h1{
 .items{
     font-size: 20px;
     font-family: sans-serif;
-    width: 305px;
+    width: 400px;
     background: #FFC107;
     margin-bottom: 2px;
     border: 1px solid black;

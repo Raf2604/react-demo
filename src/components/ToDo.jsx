@@ -6,12 +6,12 @@ export default class ToDo extends Component{
         tasks:[]
     }
 
-    inputTextChange = (event)=>{
+    inputTextChange = (event)=> {
         this.setState({
             inputValue:event.target.value
         })
     }
-    addElem = () =>{
+    addElem = ()=> {
         if(!this.state.inputValue.trim()){
             this.setState({            
                 inputValue:""
@@ -22,6 +22,12 @@ export default class ToDo extends Component{
         this.setState({
             tasks:tasks,
             inputValue:""
+        })
+    }
+    resetList = ()=> {
+        this.setState({
+            inputValue:"",
+            tasks:[]
         })
     }
 
@@ -37,7 +43,8 @@ export default class ToDo extends Component{
                 onChange={this.inputTextChange}
                 value={this.state.inputValue}
                 />
-                <button className="btn-addItem" onClick={this.addElem}>Add List</button>
+                <button className="btn-addItem" onClick={this.addElem}>Add Task</button>
+                <button className="btn-resetList" onClick={this.resetList}>Reset</button>
                <ol className="list">
                     {li}
                 </ol> 
