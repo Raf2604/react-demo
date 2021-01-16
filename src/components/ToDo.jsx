@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import styles from './stylesToDo.module.css';
-import { Form, Card, Container, Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Card, Container, Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
 import idGenerator from '../helpers/idGenerator.js'
 
 export default class ToDo extends Component {
     state = {
         inputValue: "",
         tasks: [],
-        selectedTasks: []
+        selectedTasks: new Set()
     }
 
     inputTextChange = (event) => {
@@ -32,12 +32,6 @@ export default class ToDo extends Component {
             inputValue: ""
         })
     }
-    resetList = () => {
-        this.setState({
-            inputValue: "",
-            tasks: []
-        })
-    }
 
     deleteElem = (deleteThisTask) => {
         const afterDelete = this.state.tasks.filter((tasks) => {
@@ -48,19 +42,38 @@ export default class ToDo extends Component {
         })
     }
 
-    selectTask = (e, selectThisTask) => {
-        let selected = [...this.state.selectedTasks];
+    selectTask = (selectThisTask) => {
+        let newSelectedTasks = new Set(this.state.selectedTasks);
 
-        if(e.target.checked){
-            selected = [...selected, selectThisTask];
+        if(newSelectedTasks.has(selectThisTask)){
+            newSelectedTasks.delete(selectThisTask);
         }else{
-            selected = selected.filter((item)=>{
-                return selectThisTask !== item
-            })
+            newSelectedTasks.add(selectThisTask);
         }
         this.setState({
-            selectedTasks: selected
+            selectedTasks: newSelectedTasks
         })
+    }
+
+    deleteSelected = () => {
+        const {tasks, selectedTasks} = this.state;
+        let deleteSelectedTasks = tasks.filter((task) => {
+            if(selectedTasks.has(task._id)){
+                return false
+            }else{
+                return true
+            }
+        })
+        this.setState({
+            tasks: deleteSelectedTasks,
+            selectedTasks: new Set()
+        })
+    }
+
+    addFromKeyboard = (event) =>{
+        if(event.key === "Enter"){
+            this.addElem();
+        }
     }
 
     render() {
@@ -74,12 +87,12 @@ export default class ToDo extends Component {
             >
                 <Card className={styles.tasks}>
                     <Card.Body>
-                        <Form.Check type="checkbox" onChange={(event)=>this.selectTask(event, elem._id)}/>
+                        <input type="checkbox" onChange={()=>this.selectTask(elem._id)}/>
                         <Card.Title>{elem.title}</Card.Title>
                         <Card.Text>
                             Some quick example text to build on the card title and make up the bulk of the card's content.
                         </Card.Text>
-                        <Button variant="danger" onClick={() => this.deleteElem(elem._id)}>Remove</Button>
+                        <Button  disabled={!!this.state.selectedTasks.size}  variant="danger" onClick={() => this.deleteElem(elem._id)}>Remove</Button>
                     </Card.Body>
                 </Card>
             </Col>
@@ -96,20 +109,30 @@ export default class ToDo extends Component {
                                     placeholder="Enter your task"
                                     aria-describedby="basic-addon2"
                                     onChange={this.inputTextChange}
+                                    onKeyDown={this.addFromKeyboard}
                                     value={this.state.inputValue}
+                                    disabled={!!this.state.selectedTasks.size} 
                                 />
                                 <InputGroup.Append>
-                                    <Button variant="outline-primary" onClick={this.addElem}>Add Task</Button>
-                                    <Button variant="outline-secondary" onClick={this.resetList}>Reset</Button>
+                                    <Button disabled={!!this.state.selectedTasks.size} variant="outline-primary" onClick={this.addElem}>Add Task</Button>
                                 </InputGroup.Append>
                             </InputGroup>
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-center">
+                        <Col xs={4}>
+                            <Button 
+                                disabled={!this.state.selectedTasks.size} 
+                                variant="outline-danger" 
+                                className="mb-3 justify-content-center"
+                                onClick={this.deleteSelected}
+                            >Delete selected</Button>
                         </Col>
                     </Row>
                     <Row>
                         {task}
                     </Row>
-                </Container>
-                
+                </Container>               
             </>
         )
     }
