@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import styles from './stylesToDo.module.css';
-import { Card, Container, Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
-import idGenerator from '../helpers/idGenerator.js'
+import { Container, Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
+import idGenerator from '../../helpers/idGenerator.js';
+import Task from '../Task/Task';
 
 export default class ToDo extends Component {
     state = {
@@ -85,16 +86,12 @@ export default class ToDo extends Component {
                 sm={6}
                 xs={12}
             >
-                <Card className={styles.tasks}>
-                    <Card.Body>
-                        <input type="checkbox" onChange={()=>this.selectTask(elem._id)}/>
-                        <Card.Title>{elem.title}</Card.Title>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of the card's content.
-                        </Card.Text>
-                        <Button  disabled={!!this.state.selectedTasks.size}  variant="danger" onClick={() => this.deleteElem(elem._id)}>Remove</Button>
-                    </Card.Body>
-                </Card>
+                <Task
+                    data={elem}
+                    disabled={!!this.state.selectedTasks.size}
+                    onDelete={this.deleteElem}
+                    onSelect={this.selectTask}
+                />
             </Col>
         })
 
@@ -120,7 +117,7 @@ export default class ToDo extends Component {
                         </Col>
                     </Row>
                     <Row className="justify-content-center">
-                        <Col xs={4}>
+                        <Col className={`${styles.deleteAllTasks} `}>
                             <Button 
                                 disabled={!this.state.selectedTasks.size} 
                                 variant="outline-danger" 
