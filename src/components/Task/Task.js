@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card, Button} from 'react-bootstrap';
 import styles from './taskStyle.module.css';
+import PropTypes from 'prop-types';
 
 export default class Task extends Component{
     state={
@@ -16,7 +17,7 @@ export default class Task extends Component{
     }
 
     render(){
-        const {data, onDelete, disabled}=this.props
+        const {data, onDelete, disabled} = this.props;
         return(
                 <Card className={`${styles.tasks} ${this.state.selectColor ? styles.select : ""} `}>
                     <Card.Body>
@@ -34,4 +35,11 @@ export default class Task extends Component{
                 </Card>
         );
     }
+}
+
+Task.propType = {
+    data: PropTypes.object.isRequired,
+    disabled: PropTypes.bool.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired
 }
