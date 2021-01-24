@@ -13,7 +13,7 @@ export default class Task extends Component{
     }
 
     render(){
-        const {data, onDelete, disabled, selected} = this.props;
+        const {data, onDelete, disabled, selected, onEdit} = this.props;
         return(
                 <Card className={`${styles.tasks} ${selected ? styles.select : ""} `}>
                     <Card.Body>
@@ -28,6 +28,7 @@ export default class Task extends Component{
                             className={"m-1"}
                             disabled={disabled}  
                             variant="warning" 
+                            onClick={() => onEdit(data)}
                         >
                             <FontAwesomeIcon icon={faEdit} />
                         </Button>

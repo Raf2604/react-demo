@@ -4,6 +4,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import Task from '../Task/Task';
 import NewTask from '../NewTask/NewTask';
 import Confirm from '../Confirm';
+import Edit from '../Edit';
 
 export default class ToDo extends Component {
     state = {
@@ -11,7 +12,8 @@ export default class ToDo extends Component {
         selectedTasks: new Set(),
         showConfirm: false,
         selected: false,
-        toggleNewTaskModal: false
+        toggleNewTaskModal: false,
+        editTaskModal: null
     }
 
     addElem = (newTask) => {
@@ -84,6 +86,21 @@ export default class ToDo extends Component {
         })
     }
 
+    editElem = (editThisTask) => {
+        this.setState({
+            editTaskModal: editThisTask
+        })
+    }
+    editSaveElem = (editedTask) => {
+        const tasks = [...this.state.tasks];
+        const editedId = tasks.findIndex((task)=> task._id === editedTask._id);
+        tasks[editedId] = editedTask
+        this.setState({
+            tasks: tasks,
+            editTaskModal: null
+        })
+    }
+
     render() {
         const task = this.state.tasks.map((elem) => {
             return <Col key={elem._id}
@@ -99,6 +116,7 @@ export default class ToDo extends Component {
                     onDelete={this.deleteElem}
                     onSelect={this.selectTask}
                     selected={this.state.selectedTasks.has(elem._id)}
+                    onEdit={this.editElem}
                 />
             </Col>
         })
@@ -173,7 +191,15 @@ export default class ToDo extends Component {
                         onAdd={this.addElem}
                         onClose={this.toggleNewTask}
                     />
-                }         
+                }       
+                {
+                    this.state.editTaskModal &&
+                    <Edit
+                        taskData={this.state.editTaskModal}
+                        onClose={() => this.editElem(null)}
+                        onSave={this.editSaveElem}
+                    />
+                }  
             </>
         )
     }
