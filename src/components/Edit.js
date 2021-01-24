@@ -82,6 +82,7 @@ export default class NewTask extends Component {
 }
 
 NewTask.propType = {
-    onAdd: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    taskData: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired
 }

@@ -51,5 +51,6 @@ Task.propType = {
     disabled: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    selected: PropTypes.func.isRequired
+    selected: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired
 }
