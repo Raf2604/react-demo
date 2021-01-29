@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Form, FormControl, Modal, Button } from 'react-bootstrap';
-import idGenerator from '../../helpers/idGenerator';
 import PropTypes from 'prop-types';
 
 export default class NewTask extends Component {
-    state = {
-        title: "",
-        description: ""
+    constructor(props){
+        super(props);
+        this.state = {
+            ...props.taskData
+        };
     }
 
     inputTextChange = (event, name) => {
@@ -21,24 +22,22 @@ export default class NewTask extends Component {
         }
     }
 
-    creatTask = () => {
+    changeTask = () => {
         const title = this.state.title.trim();
         const description = this.state.description.trim();
 
         if (!title) {
-            this.setState({
-                title: "",
-                description: ""
-            })
             return
         }
         const newTask = {
-            _id: idGenerator(),
+            _id: this.state._id,
             title: title,
             description: description
         }
-        this.props.onAdd(newTask);
+        this.props.onSave(newTask);
     }
+
+
 
     render() {
         const { onClose } = this.props;
@@ -52,14 +51,14 @@ export default class NewTask extends Component {
                     >
                     <Modal.Header closeButton >
                         <Modal.Title id="contained-modal-title-vcenter">
-                            Add new task
+                            Edit task
                         </Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
                         <FormControl
                             className={"mb-3"}
-                            placeholder="Enter title of task"
+                            value={this.state.title}
                             aria-describedby="basic-addon2"
                             onChange={(event)=>this.inputTextChange(event, "title")}
                             onKeyPress={this.addFromKeyboard}
@@ -68,13 +67,13 @@ export default class NewTask extends Component {
                         <Form.Control  
                             as="textarea" 
                             rows={3} 
-                            placeholder="Enter description of task"
+                            value={this.state.description}
                             onChange={(event)=>this.inputTextChange(event, "description")}
                             name="description"
                         />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="success" onClick={this.creatTask}>Create</Button>
+                        <Button variant="success" onClick={this.changeTask}>Confirm</Button>
                         <Button onClick={onClose}>Cancel</Button>
                     </Modal.Footer>
                     </Modal>
@@ -83,6 +82,7 @@ export default class NewTask extends Component {
 }
 
 NewTask.propType = {
-    onAdd: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    taskData: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onSave: PropTypes.func.isRequired
 }

@@ -4,18 +4,23 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import Task from '../Task/Task';
 import NewTask from '../NewTask/NewTask';
 import Confirm from '../Confirm';
+import Edit from '../Edit';
 
 export default class ToDo extends Component {
     state = {
         tasks: [],
         selectedTasks: new Set(),
-        showConfirm:false
+        showConfirm: false,
+        selected: false,
+        toggleNewTaskModal: false,
+        editTaskModal: null
     }
 
     addElem = (newTask) => {
         const tasks = [...this.state.tasks, newTask]
         this.setState({
             tasks: tasks,
+            toggleNewTaskModal: false
         })
     }
 
@@ -56,13 +61,45 @@ export default class ToDo extends Component {
             showConfirm: false
         })
     }
-    
 
     toggleConfirm = () => {
         this.setState({
             showConfirm: !this.state.showConfirm
         });
     };
+
+    selectAll = () => {
+        const selectAllTasks = this.state.tasks.map((task) => task._id);
+        this.setState({
+            selectedTasks: new Set(selectAllTasks)
+        })
+    }
+
+    deselectAll = () => {
+        this.setState({
+            selectedTasks: new Set()
+        })
+    }
+    toggleNewTask = () => {
+        this.setState({
+            toggleNewTaskModal: !this.state.toggleNewTaskModal
+        })
+    }
+
+    editElem = (editThisTask) => {
+        this.setState({
+            editTaskModal: editThisTask
+        })
+    }
+    editSaveElem = (editedTask) => {
+        const tasks = [...this.state.tasks];
+        const editedId = tasks.findIndex((task)=> task._id === editedTask._id);
+        tasks[editedId] = editedTask
+        this.setState({
+            tasks: tasks,
+            editTaskModal: null
+        })
+    }
 
     render() {
         const task = this.state.tasks.map((elem) => {
@@ -72,12 +109,14 @@ export default class ToDo extends Component {
                 md={4}
                 sm={6}
                 xs={12}
-            >
+                >
                 <Task
                     data={elem}
                     disabled={!!this.state.selectedTasks.size}
                     onDelete={this.deleteElem}
                     onSelect={this.selectTask}
+                    selected={this.state.selectedTasks.has(elem._id)}
+                    onEdit={this.editElem}
                 />
             </Col>
         })
@@ -87,18 +126,46 @@ export default class ToDo extends Component {
                 <h1 className={styles.title}>ToDo List</h1>
                 <Container>
                     <Row className="justify-content-center">
-                        <Col xs={10}>
-                            <NewTask
+                        <Col className={`${styles.taskButtons} `}>
+                            <Button 
                                 disabled={!!this.state.selectedTasks.size}
-                                onAdd={this.addElem}
-                            />
+                                variant="primary" 
+                                className="mb-3 justify-content-center" 
+                                onClick={this.toggleNewTask}                           
+                            >
+                            Add task
+                            </Button>
                         </Col>
-                    </Row>
-                    <Row className="justify-content-center">
-                        <Col className={`${styles.deleteAllTasks} `}>
+                        <Col className={`${styles.taskButtons} `}>
+                            <Button 
+                                disabled={
+                                    !this.state.tasks.length || 
+                                    this.state.tasks.length === this.state.selectedTasks.size
+                                }
+                                variant="warning" 
+                                className="mb-3 justify-content-center" 
+                                onClick={this.selectAll}                           
+                            >
+                            Select All
+                            </Button>
+                        </Col>
+                        <Col className={`${styles.taskButtons} `}>
+                            <Button 
+                                disabled={
+                                    !this.state.tasks.length ||
+                                    !this.state.selectedTasks.size
+                                }
+                                variant="warning" 
+                                className="mb-3 justify-content-center" 
+                                onClick={this.deselectAll}                           
+                            >
+                            Deselect all
+                            </Button>
+                        </Col>
+                        <Col className={`${styles.taskButtons} `}>
                             <Button 
                                 disabled={!this.state.selectedTasks.size} 
-                                variant="outline-danger" 
+                                variant="danger" 
                                 className="mb-3 justify-content-center" 
                                 onClick={this.toggleConfirm}                               
                             >
@@ -118,7 +185,21 @@ export default class ToDo extends Component {
                         tasksSize={this.state.selectedTasks.size}
                     /> 
                 }
-            
+                {
+                    this.state.toggleNewTaskModal &&
+                    <NewTask
+                        onAdd={this.addElem}
+                        onClose={this.toggleNewTask}
+                    />
+                }       
+                {
+                    this.state.editTaskModal &&
+                    <Edit
+                        taskData={this.state.editTaskModal}
+                        onClose={() => this.editElem(null)}
+                        onSave={this.editSaveElem}
+                    />
+                }  
             </>
         )
     }
