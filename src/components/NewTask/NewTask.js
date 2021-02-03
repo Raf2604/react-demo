@@ -1,11 +1,15 @@
 import React, { PureComponent } from 'react';
 import { Form, FormControl, Modal, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import DatePicker from "react-datepicker";
+import { formatDate } from "../../helpers/utils";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default class NewTask extends PureComponent {
     state = {
         title: "",
-        description: ""
+        description: "",
+        date: new Date()
     }
 
     inputTextChange = (event, name) => {
@@ -33,11 +37,17 @@ export default class NewTask extends PureComponent {
         }
         const newTask = {
             title: title,
-            description: description
+            description: description,
+            date: formatDate(this.state.date.toISOString())
         }
         this.props.onAdd(newTask);
     }
 
+    handleSelectDate = (value) =>{
+        this.setState({
+            date: value || new Date()
+        })
+    }
     render() {
         const { onClose } = this.props;
         return (
@@ -57,7 +67,7 @@ export default class NewTask extends PureComponent {
                     <Modal.Body>
                         <FormControl
                             className={"mb-3"}
-                            placeholder="Enter title of task"
+                            placeholder="Title"
                             aria-describedby="basic-addon2"
                             onChange={(event)=>this.inputTextChange(event, "title")}
                             onKeyPress={this.addFromKeyboard}
@@ -66,9 +76,15 @@ export default class NewTask extends PureComponent {
                         <Form.Control  
                             as="textarea" 
                             rows={3} 
-                            placeholder="Enter description of task"
+                            placeholder="Description"
                             onChange={(event)=>this.inputTextChange(event, "description")}
                             name="description"
+                        />
+                        <DatePicker 
+                            className={"mt-3"}
+                            minDate={new Date()}
+                            selected={this.state.date} 
+                            onChange={this.handleSelectDate}  
                         />
                     </Modal.Body>
                     <Modal.Footer>

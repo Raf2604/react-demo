@@ -4,6 +4,7 @@ import styles from './taskStyle.module.css';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { formatDate } from "../../helpers/utils";
 
 export default class Task extends PureComponent{
 
@@ -22,7 +23,8 @@ export default class Task extends PureComponent{
                             checked={selected}
                         />
                         <Card.Title>{data.title}</Card.Title>
-                        <Card.Text>{data.description}</Card.Text>
+                        <Card.Text>Description: {data.description}</Card.Text>
+                        <Card.Text>Date: {formatDate(data.date)}</Card.Text>
                         <Button  
                             className={"m-1"}
                             disabled={disabled}  
