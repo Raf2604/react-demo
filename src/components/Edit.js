@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Form, FormControl, Modal, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import DatePicker from "react-datepicker";
+import { formatDate } from "../helpers/utils";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default class NewTask extends Component {
     constructor(props){
         super(props);
         this.state = {
-            ...props.taskData
+            ...props.taskData,
+            date: props.taskData.date ? new Date(props.taskData.date) : ""
         };
     }
 
@@ -32,12 +36,17 @@ export default class NewTask extends Component {
         const newTask = {
             _id: this.state._id,
             title: title,
-            description: description
+            description: description,
+            date: formatDate(this.state.date.toISOString())
         }
         this.props.onSave(newTask);
     }
 
-
+    handleChangeDate = (value) => {
+        this.setState({
+            date: value || new Date()
+        })
+    }
 
     render() {
         const { onClose } = this.props;
@@ -70,6 +79,12 @@ export default class NewTask extends Component {
                             value={this.state.description}
                             onChange={(event)=>this.inputTextChange(event, "description")}
                             name="description"
+                        />
+                        <DatePicker 
+                            className={"mt-3"}
+                            minDate={new Date()}
+                            selected={this.state.date} 
+                            onChange={this.handleChangeDate}  
                         />
                     </Modal.Body>
                     <Modal.Footer>
