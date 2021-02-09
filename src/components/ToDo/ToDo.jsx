@@ -16,21 +16,88 @@ export default class ToDo extends Component {
         editTaskModal: null
     }
 
-    addElem = (newTask) => {
-        const tasks = [...this.state.tasks, newTask]
-        this.setState({
-            tasks: tasks,
-            toggleNewTaskModal: false
+    componentDidMount(){
+        fetch('http://localhost:3001/task', {
+            method: 'GET',
+            headers: {
+                "Content-Type": 'application/json'
+            }
         })
+        .then(async(response) => {
+            const res = await response.json();
+            if(response.status >= 400 && response.status <= 599){
+                if(res.error){
+                    throw res.error;
+                }
+                else {
+                    throw new Error('Something went wrong!!!');
+                }
+            }
+            this.setState({
+                tasks: res,
+            })
+        })
+        .catch((error)=>{
+            console.log('catch error', error);
+        });
+    }
+    addElem = (newTask) => {
+        fetch('http://localhost:3001/task', {
+            method: 'POST',
+            body: JSON.stringify(newTask),
+            headers: {
+                "Content-Type": 'application/json'
+            }
+        })
+        .then(async(response) => {
+            const res = await response.json();
+            if(response.status >= 400 && response.status <= 599){
+                if(res.error){
+                    throw res.error;
+                }
+                else {
+                    throw new Error('Something went wrong!!!');
+                }
+            }
+            const tasks = [...this.state.tasks, res]
+            this.setState({
+                tasks: tasks,
+                toggleNewTaskModal: false
+            })
+        })
+        .catch((error)=>{
+            console.log('catch error', error);
+        });
     }
 
     deleteElem = (deleteThisTask) => {
-        const afterDelete = this.state.tasks.filter((tasks) => {
-            return deleteThisTask !== tasks._id
+        fetch(`http://localhost:3001/task/${deleteThisTask}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": 'application/json'
+            }
         })
-        this.setState({
-            tasks: afterDelete
+        .then(async(response) => {
+            const res = await response.json();
+            if(response.status >= 400 && response.status <= 599){
+                if(res.error){
+                    throw res.error;
+                }
+                else {
+                    throw new Error('Something went wrong!!!');
+                }
+            }
+            const afterDelete = this.state.tasks.filter((tasks) => {
+                return deleteThisTask !== tasks._id
+            })
+            this.setState({
+                tasks: afterDelete
+            })
         })
+        .catch((error)=>{
+            console.log('catch error', error);
+        });
+
     }
 
     selectTask = (selectThisTask) => {
@@ -48,18 +115,42 @@ export default class ToDo extends Component {
 
     deleteSelected = () => {
         const {tasks, selectedTasks} = this.state;
-        let deleteSelectedTasks = tasks.filter((task) => {
-            if(selectedTasks.has(task._id)){
-                return false
-            }else{
-                return true
+        const body={
+            tasks:[...selectedTasks]
+        }
+        fetch('http://localhost:3001/task', {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": 'application/json'
             }
         })
-        this.setState({
-            tasks: deleteSelectedTasks,
-            selectedTasks: new Set(),
-            showConfirm: false
+        .then(async(response) => {
+            const res = await response.json();
+            if(response.status >= 400 && response.status <= 599){
+                if(selectedTasks.error){
+                    throw res.error;
+                }
+                else {
+                    throw new Error('Something went wrong!!!');
+                }
+            }
+            let deleteSelectedTasks = tasks.filter((task) => {
+                if(selectedTasks.has(task._id)){
+                    return false
+                }else{
+                    return true
+                }
+            })
+            this.setState({
+                tasks: deleteSelectedTasks,
+                selectedTasks: new Set(),
+                showConfirm: false
+            })
         })
+        .catch((error)=>{
+            console.log('catch error', error);
+        });
     }
 
     toggleConfirm = () => {
@@ -92,13 +183,36 @@ export default class ToDo extends Component {
         })
     }
     editSaveElem = (editedTask) => {
-        const tasks = [...this.state.tasks];
-        const editedId = tasks.findIndex((task)=> task._id === editedTask._id);
-        tasks[editedId] = editedTask
-        this.setState({
-            tasks: tasks,
-            editTaskModal: null
+        
+        fetch(`http://localhost:3001/task/${editedTask._id}`, {
+            method: 'PUT',
+            body: JSON.stringify(editedTask),
+            headers: {
+                "Content-Type": 'application/json'
+            }
         })
+        .then(async(response) => {
+            const res = await response.json();
+            if(response.status >= 400 && response.status <= 599){
+                if(res.error){
+                    throw res.error;
+                }
+                else {
+                    throw new Error('Something went wrong!!!');
+                }
+            }
+            const tasks = [...this.state.tasks];
+            const editedId = tasks.findIndex((task)=> task._id === editedTask._id);
+            tasks[editedId] = editedTask
+            this.setState({
+                tasks: tasks,
+                editTaskModal: null
+            })
+
+        })
+        .catch((error)=>{
+            console.log('catch error', error);
+        });
     }
 
     render() {
