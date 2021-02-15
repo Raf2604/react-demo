@@ -1,6 +1,17 @@
 .tasks{
     margin:10px 0px;
+    height: 100%
 }
 .select{
     border:1px solid #bb0000;
+}
+.btnYellow{
+    position: absolute;
+    bottom: 10px;
+    left: 70px;
+}
+.btnRed{
+    position: absolute;
+    bottom: 10px;
+    left: 18px;
 }

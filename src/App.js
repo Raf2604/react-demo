@@ -36,7 +36,7 @@ function App() {
           exact
           />
           <Route
-          path="/task"
+          path="/task/:taskId/"
           component={SingleTask}
           exact
           />
@@ -45,7 +45,7 @@ function App() {
           component={NotFound}
           exact
           />
-          <Redirect to="not-found"/>
+          <Redirect to="/not-found"/>
         </Switch>
       </BrowserRouter>
     </div>
