@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import { Form, FormControl, Modal, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import DatePicker from "react-datepicker";
@@ -6,10 +6,18 @@ import { formatDate } from "../../helpers/utils";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default class NewTask extends PureComponent {
-    state = {
-        title: "",
-        description: "",
-        date: new Date()
+    constructor(props){
+        super(props);
+        this.inputRef = createRef();
+        this.state = {
+            title: "",
+            description: "",
+            date: new Date()
+        }
+    }
+
+    componentDidMount(){
+        this.inputRef.current.focus()
     }
 
     inputTextChange = (event, name) => {
@@ -66,6 +74,7 @@ export default class NewTask extends PureComponent {
 
                     <Modal.Body>
                         <FormControl
+                            ref={this.inputRef}
                             className={"mb-3"}
                             placeholder="Title"
                             aria-describedby="basic-addon2"
