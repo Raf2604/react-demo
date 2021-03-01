@@ -1,0 +1,12 @@
+.active{
+    color: red !important;
+}
+.menuItem{
+    color: whitesmoke;
+    font-size: 18px;
+    margin-right: 12px;
+}
+.menuItem:hover{
+    text-decoration: none;
+    color: rgb(211, 211, 211);
+}
