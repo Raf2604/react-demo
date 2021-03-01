@@ -217,7 +217,7 @@ export default class ToDo extends Component {
 
     render() {
         const task = this.state.tasks.map((elem) => {
-            return <Col key={elem._id}
+            return <Col key={elem._id} className={styles.marginTop}
                 xl={2}
                 lg={3}
                 md={4}

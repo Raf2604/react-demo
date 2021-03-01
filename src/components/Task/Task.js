@@ -4,7 +4,8 @@ import styles from './taskStyle.module.css';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { formatDate } from "../../helpers/utils";
+import { formatDate, textCut } from "../../helpers/utils";
+import { Link } from 'react-router-dom';
 
 export default class Task extends PureComponent{
 
@@ -22,11 +23,14 @@ export default class Task extends PureComponent{
                             onChange={this.handleChange}
                             checked={selected}
                         />
-                        <Card.Title>{data.title}</Card.Title>
-                        <Card.Text>Description: {data.description}</Card.Text>
+                        <Link
+                        to={`/task/${data._id}`}>
+                            <Card.Title>{textCut(data.title, 30)}</Card.Title>
+                        </Link>  
+                        <Card.Text>Description: {textCut(data.description, 60)}</Card.Text>
                         <Card.Text>Date: {formatDate(data.date)}</Card.Text>
                         <Button  
-                            className={"m-1"}
+                            className={`m-1 ${styles.btnYellow}`}
                             disabled={disabled}  
                             variant="warning" 
                             onClick={() => onEdit(data)}
@@ -34,7 +38,7 @@ export default class Task extends PureComponent{
                             <FontAwesomeIcon icon={faEdit} />
                         </Button>
                         <Button  
-                            className={"m-1"}
+                            className={`m-1 ${styles.btnRed}`}
                             disabled={disabled}  
                             variant="danger" 
                             onClick={() => onDelete(data._id)}

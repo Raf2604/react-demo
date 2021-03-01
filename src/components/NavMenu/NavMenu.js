@@ -21,7 +21,7 @@ export default function NavMenu(){
           className={styles.menuItem}
           activeClassName={styles.active}
           to="/contact"
-          >Contact us</NavLink>
+          exact>Contact us</NavLink>
         </Nav>
       </Navbar>
     );
