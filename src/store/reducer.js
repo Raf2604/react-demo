@@ -4,7 +4,8 @@ const defaultState={
     tasks: [],
     addTaskSuccess: false,
     deleteTasksSuccess: false,
-    editTaskSuccess: false
+    editTaskSuccess: false,
+    spinnerShow: false
 } 
 export default function reducer(state=defaultState,action){
     switch(action.type){
@@ -13,27 +14,31 @@ export default function reducer(state=defaultState,action){
           ...state,
           addTaskSuccess: false,
           deleteTasksSuccess: false,
-          editTaskSuccess: false
+          editTaskSuccess: false,
+          spinnerShow: true
         }
       }
       case actionTypes.GET_TASKS:{
         return{
           ...state,
-          tasks:action.tasks
+          tasks:action.tasks,
+          spinnerShow: false
         }
       }
       case actionTypes.ADD_TASK:{
         return{
           ...state,
           tasks:[...state.tasks, action.task],
-          addTaskSuccess: true
+          addTaskSuccess: true,
+          spinnerShow: false
         }
       }
       case actionTypes.DELETE_TASK:{
         const afterDelete = state.tasks.filter((tasks) => action.taskId !== tasks._id)
         return{
           ...state,
-          tasks: afterDelete
+          tasks: afterDelete,
+          spinnerShow: false
         }
       } 
       case actionTypes.DELETE_TASKS:{
@@ -47,7 +52,8 @@ export default function reducer(state=defaultState,action){
         return{
             ...state,
             tasks: deleteSelectedTasks,
-            deleteTasksSuccess: true
+            deleteTasksSuccess: true,
+            spinnerShow: false
         }
       }      
       case actionTypes.EDIT_TASK:{
@@ -57,7 +63,8 @@ export default function reducer(state=defaultState,action){
         return{
           ...state,
           tasks: tasks,
-          editTaskSuccess: true
+          editTaskSuccess: true,
+          spinnerShow: false
         }
       }
 

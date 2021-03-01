@@ -8,8 +8,10 @@ import About from './components/pages/About/About';
 import Contact from './components/pages/Contact/Contact';
 import NotFound from './components/pages/NotFound/NotFound';
 import SingleTask from './components/pages/SingleTask/SingleTask';
+import {connect} from 'react-redux';
+import Spinner from './components/Spinner/Spinner';
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <BrowserRouter>
@@ -48,8 +50,15 @@ function App() {
           <Redirect to="/not-found"/>
         </Switch>
       </BrowserRouter>
+      { props.spinnerShow && <Spinner/> } 
     </div>
   ); 
 }
 
-export default App; 
+const mapStateToProps = (state)=>{
+    return {
+      spinnerShow: state.spinnerShow
+    };
+};
+
+export default connect(mapStateToProps)(App) 
