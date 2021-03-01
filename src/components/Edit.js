@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { Form, FormControl, Modal, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import DatePicker from "react-datepicker";
@@ -12,6 +12,7 @@ export default class NewTask extends Component {
             ...props.taskData,
             date: props.taskData.date ? new Date(props.taskData.date) : ""
         };
+        this.inputRef = createRef();
     }
 
     inputTextChange = (event, name) => {
@@ -48,6 +49,10 @@ export default class NewTask extends Component {
         })
     }
 
+    componentDidMount(){
+        this.inputRef.current.focus();
+    }
+
     render() {
         const { onClose } = this.props;
         return (
@@ -66,6 +71,7 @@ export default class NewTask extends Component {
 
                     <Modal.Body>
                         <FormControl
+                            ref={this.inputRef}
                             className={"mb-3"}
                             value={this.state.title}
                             aria-describedby="basic-addon2"
