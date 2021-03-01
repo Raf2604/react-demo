@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import DatePicker from "react-datepicker";
 import { formatDate } from "../../helpers/utils";
 import "react-datepicker/dist/react-datepicker.css";
+import {connect} from 'react-redux';
+import {addTask} from '../../store/action';
 
-export default class NewTask extends PureComponent {
+class NewTask extends PureComponent {
     constructor(props){
         super(props);
         this.inputRef = createRef();
@@ -48,7 +50,7 @@ export default class NewTask extends PureComponent {
             description: description,
             date: formatDate(this.state.date.toISOString())
         }
-        this.props.onAdd(newTask);
+        this.props.addTask(newTask);
     }
 
     handleSelectDate = (value) =>{
@@ -106,6 +108,12 @@ export default class NewTask extends PureComponent {
 }
 
 NewTask.propType = {
-    onAdd: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired
 }
+
+const mapDispatchToProps = {
+    addTask: addTask
+}
+
+
+export default connect(null, mapDispatchToProps)(NewTask)
