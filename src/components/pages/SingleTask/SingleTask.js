@@ -4,36 +4,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { formatDate } from "../../../helpers/utils";
 import Edit from '../../Edit';
+import {connect} from 'react-redux';
+import {getTask} from '../../../store/action';
 
-export default class SingleTask extends Component{
+class SingleTask extends Component{
     state={
-        task:null,
         singleTaskModal:false
     }
+
     componentDidMount(){
-        fetch(`http://localhost:3001/task/${this.props.match.params.taskId}`, {
-            method: 'GET',
-            headers: {
-                "Content-Type": 'application/json'
-            }
-        })
-        .then(async(response) => {
-            const res = await response.json();
-            if(response.status >= 400 && response.status <= 599){
-                if(res.error){
-                    throw res.error;
-                }
-                else {
-                    throw new Error('Something went wrong!!!');
-                }
-            }
+        this.props.getTask(this.props.match.params.taskId)
+    }
+
+    componentDidUpdate(prevProps){
+        if(!prevProps.editSingleTaskSuccess && this.props.editSingleTaskSuccess){
             this.setState({
-                task:res
-           })
-        })
-        .catch((error)=>{
-            console.log('catch error', error);
-        });
+                singleTaskModal: false
+            })
+            return
+        }
     }
 
     handleDeleteSingleTask = ()=> {
@@ -60,51 +49,21 @@ export default class SingleTask extends Component{
         }); 
     }
 
-    handleSaveTask = (editedTask)=>{
-        
-        fetch(`http://localhost:3001/task/${editedTask._id}`, {
-            method: 'PUT',
-            body: JSON.stringify(editedTask),
-            headers: {
-                "Content-Type": 'application/json'
-            }
-        })
-        .then(async(response) => {
-            const res = await response.json();
-            if(response.status >= 400 && response.status <= 599){
-                if(res.error){
-                    throw res.error;
-                }
-                else {
-                    throw new Error('Something went wrong!!!');
-                }
-            }
-            this.setState({
-                task: res,
-                singleTaskModal: false
-            })
-
-        })
-        .catch((error)=>{
-            console.log('catch error', error);
-        });
-    }
-
     handleEditSingleTask = ()=>{
         this.setState({
             singleTaskModal:!this.state.singleTaskModal
         })
     }
-    
+
     render(){
-        const {task} = this.state;
+        const {task} = this.props;
         return(
             <div>
                 <Container className='text-center'>
                     <Row>
                         <Col xs={12}>
             {
-                this.state.task?
+                task?
                     <Card>
                         <Card.Body>
                             <Card.Title>{task.title}</Card.Title>
@@ -137,7 +96,7 @@ export default class SingleTask extends Component{
                     <Edit
                         taskData={task}
                         onClose={this.handleEditSingleTask}
-                        onSave={this.handleSaveTask}
+                        from="singleTask"
                     />
                 }
             </div>
@@ -145,3 +104,16 @@ export default class SingleTask extends Component{
         );
     }
 };
+
+const mapStateToProps = (state)=>{
+    return {
+        task: state.task,
+        editSingleTaskSuccess: state.editSingleTaskSuccess
+    };
+};
+
+const mapDispatchToProps = {
+    getTask: getTask
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleTask)

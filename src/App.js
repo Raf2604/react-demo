@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
@@ -10,8 +10,37 @@ import NotFound from './components/pages/NotFound/NotFound';
 import SingleTask from './components/pages/SingleTask/SingleTask';
 import {connect} from 'react-redux';
 import Spinner from './components/Spinner/Spinner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App(props) {
+
+  useEffect(()=>{
+    if(props.successMessage){
+      toast.success(props.successMessage, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    }
+    if(props.errorMessage){
+      toast.error(props.errorMessage, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    }
+
+  },[props.successMessage, props.errorMessage])
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -51,13 +80,16 @@ function App(props) {
         </Switch>
       </BrowserRouter>
       { props.spinnerShow && <Spinner/> } 
+      <ToastContainer/>
     </div>
   ); 
 }
 
 const mapStateToProps = (state)=>{
     return {
-      spinnerShow: state.spinnerShow
+      spinnerShow: state.spinnerShow,
+      successMessage: state.successMessage,
+      errorMessage: state.errorMessage
     };
 };
 

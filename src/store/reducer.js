@@ -2,10 +2,14 @@ import * as actionTypes from '../store/actionTypes';
 
 const defaultState={
     tasks: [],
+    task: null,
     addTaskSuccess: false,
     deleteTasksSuccess: false,
     editTaskSuccess: false,
-    spinnerShow: false
+    editSingleTaskSuccess: false,
+    spinnerShow: false,
+    successMessage: null,
+    errorMessage: null
 } 
 export default function reducer(state=defaultState,action){
     switch(action.type){
@@ -15,7 +19,17 @@ export default function reducer(state=defaultState,action){
           addTaskSuccess: false,
           deleteTasksSuccess: false,
           editTaskSuccess: false,
-          spinnerShow: true
+          editSingleTaskSuccess: false,
+          spinnerShow: true,
+          successMessage: null,
+          errorMessage: null
+        }
+      }
+      case actionTypes.ERROR:{
+        return{
+          ...state,
+          spinnerShow: false,
+          errorMessage: action.error
         }
       }
       case actionTypes.GET_TASKS:{
@@ -25,12 +39,20 @@ export default function reducer(state=defaultState,action){
           spinnerShow: false
         }
       }
+      case actionTypes.GET_TASK:{
+        return{
+          ...state,
+          task:action.task,
+          spinnerShow: false
+        }
+      }
       case actionTypes.ADD_TASK:{
         return{
           ...state,
           tasks:[...state.tasks, action.task],
           addTaskSuccess: true,
-          spinnerShow: false
+          spinnerShow: false,
+          successMessage: 'Task created successfully!!'
         }
       }
       case actionTypes.DELETE_TASK:{
@@ -38,7 +60,8 @@ export default function reducer(state=defaultState,action){
         return{
           ...state,
           tasks: afterDelete,
-          spinnerShow: false
+          spinnerShow: false,
+          successMessage: 'Task deleted successfully!!'
         }
       } 
       case actionTypes.DELETE_TASKS:{
@@ -53,10 +76,22 @@ export default function reducer(state=defaultState,action){
             ...state,
             tasks: deleteSelectedTasks,
             deleteTasksSuccess: true,
-            spinnerShow: false
+            spinnerShow: false,
+            successMessage: 'Tasks deleted successfully!!'
         }
       }      
       case actionTypes.EDIT_TASK:{
+        if(action.from === 'singleTask'){
+          return {
+            ...state,
+            task: action.editedTask,
+            editSingleTaskSuccess: true,
+            spinnerShow: false,
+            successMessage: 'Task edited successfully!!!'
+          };
+
+        }
+
         const tasks = [...state.tasks];
         const editedId = tasks.findIndex((task)=> task._id === action.editedTask._id);
         tasks[editedId] = action.editedTask
@@ -64,7 +99,8 @@ export default function reducer(state=defaultState,action){
           ...state,
           tasks: tasks,
           editTaskSuccess: true,
-          spinnerShow: false
+          spinnerShow: false,
+          successMessage: 'Task edited successfully!!'
         }
       }
 
