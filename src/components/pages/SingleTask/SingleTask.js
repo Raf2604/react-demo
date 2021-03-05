@@ -5,7 +5,7 @@ import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { formatDate } from "../../../helpers/utils";
 import Edit from '../../Edit';
 import {connect} from 'react-redux';
-import {getTask} from '../../../store/action';
+import {getTask, deleteTask} from '../../../store/action';
 
 class SingleTask extends Component{
     state={
@@ -26,27 +26,7 @@ class SingleTask extends Component{
     }
 
     handleDeleteSingleTask = ()=> {
-        fetch(`http://localhost:3001/task/${this.state.task._id}`, {
-            method: 'DELETE',
-            headers: {
-                "Content-Type": 'application/json'
-            }
-        })
-        .then(async(response) => {
-            const res = await response.json();
-            if(response.status >= 400 && response.status <= 599){
-                if(res.error){
-                    throw res.error;
-                }
-                else {
-                    throw new Error('Something went wrong!!!');
-                }
-            }
-            this.props.history.push('/');
-        })
-        .catch((error)=>{
-            console.log('catch error', error);
-        }); 
+        this.props.deleteTask(this.props.task._id, 'singleTask')
     }
 
     handleEditSingleTask = ()=>{
@@ -113,7 +93,8 @@ const mapStateToProps = (state)=>{
 };
 
 const mapDispatchToProps = {
-    getTask: getTask
+    getTask: getTask,
+    deleteTask: deleteTask
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleTask)

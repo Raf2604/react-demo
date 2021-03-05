@@ -13,6 +13,7 @@ const defaultState={
 } 
 export default function reducer(state=defaultState,action){
     switch(action.type){
+
       case actionTypes.PENDING:{
         return{
           ...state,
@@ -25,6 +26,7 @@ export default function reducer(state=defaultState,action){
           errorMessage: null
         }
       }
+
       case actionTypes.ERROR:{
         return{
           ...state,
@@ -32,6 +34,7 @@ export default function reducer(state=defaultState,action){
           errorMessage: action.error
         }
       }
+
       case actionTypes.GET_TASKS:{
         return{
           ...state,
@@ -39,6 +42,7 @@ export default function reducer(state=defaultState,action){
           spinnerShow: false
         }
       }
+
       case actionTypes.GET_TASK:{
         return{
           ...state,
@@ -46,6 +50,7 @@ export default function reducer(state=defaultState,action){
           spinnerShow: false
         }
       }
+
       case actionTypes.ADD_TASK:{
         return{
           ...state,
@@ -55,7 +60,16 @@ export default function reducer(state=defaultState,action){
           successMessage: 'Task created successfully!!'
         }
       }
+      
       case actionTypes.DELETE_TASK:{
+        if(action.from === 'singleTask'){
+          return {
+            ...state,
+            task: null,
+            spinnerShow: false,
+            successMessage: 'Task deleted successfully!!!'
+          }
+        }
         const afterDelete = state.tasks.filter((tasks) => action.taskId !== tasks._id)
         return{
           ...state,
@@ -64,6 +78,7 @@ export default function reducer(state=defaultState,action){
           successMessage: 'Task deleted successfully!!'
         }
       } 
+
       case actionTypes.DELETE_TASKS:{
         let deleteSelectedTasks = state.tasks.filter((task) => {
           if(action.taskIds.has(task._id)){
@@ -79,7 +94,8 @@ export default function reducer(state=defaultState,action){
             spinnerShow: false,
             successMessage: 'Tasks deleted successfully!!'
         }
-      }      
+      }    
+
       case actionTypes.EDIT_TASK:{
         if(action.from === 'singleTask'){
           return {
@@ -88,10 +104,8 @@ export default function reducer(state=defaultState,action){
             editSingleTaskSuccess: true,
             spinnerShow: false,
             successMessage: 'Task edited successfully!!!'
-          };
-
+          }
         }
-
         const tasks = [...state.tasks];
         const editedId = tasks.findIndex((task)=> task._id === action.editedTask._id);
         tasks[editedId] = action.editedTask

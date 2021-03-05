@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './stylesToDo.module.css';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import Search from '../../Search/Search';
 import Task from '../../Task/Task';
 import NewTask from '../../NewTask/NewTask';
 import Confirm from '../../Confirm';
@@ -116,6 +117,11 @@ class ToDo extends Component {
             <div>
                 <h1 className={styles.title}>ToDo List</h1>
                 <Container>
+                    <Row>
+                        <Col>
+                            <Search/>
+                        </Col>
+                    </Row>
                     <Row className="justify-content-center">
                         <Col className={`${styles.taskButtons} `}>
                             <Button 
