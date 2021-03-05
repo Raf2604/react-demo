@@ -6,8 +6,10 @@ import styles from './styleSearch.module.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as options from './options';
+import {formatDate} from '../../helpers/utils';
+import {getTasks} from '../../store/action';
 
-function Search(){
+function Search(props){
 
     const [status, setStatus] = useState({
         value: ''
@@ -34,10 +36,18 @@ function Search(){
     }
 
     const handleSubmit = ()=>{
-        console.log('search - ', search);
-        console.log('status - ', status);
-        console.log('sort - ', sort);
-        console.log('dates - ', dates);
+        const params = {};
+
+        search && (params.search = search);
+        status.value && (params.status = status.value);
+        sort.value && (params.sort = sort.value);
+    
+        for(let key in dates){
+            if(dates[key]){
+                params[key] = formatDate(dates[key].toISOString());
+            }
+        }
+        props.getTasks(params);
     }
 
     return(
@@ -111,4 +121,8 @@ function Search(){
     )
 }
 
-export default connect()(Search)
+const mapDispatchToProps = {
+    getTasks: getTasks
+}
+
+export default connect(null, mapDispatchToProps)(Search)
