@@ -42,7 +42,7 @@ class EditTaskModal extends Component {
             description: description,
             date: formatDate(this.state.date.toISOString())
         }
-        this.props.editTask(newTask);
+        this.props.editTask(newTask, this.props.from);
     }
 
     handleChangeDate = (value) => {

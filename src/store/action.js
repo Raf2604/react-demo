@@ -8,6 +8,22 @@ export function getTasks(){
         .then((tasks)=>{
             dispatch({type:actionTypes.GET_TASKS,tasks:tasks})
         })
+        .catch((error)=>{
+            dispatch({type:actionTypes.ERROR, error: error.message})
+        });
+    }
+}
+
+export function getTask(taskId){
+    return(dispatch)=>{
+        dispatch({type:actionTypes.PENDING});
+        request(`http://localhost:3001/task/${taskId}`)
+        .then((task)=>{
+            dispatch({type:actionTypes.GET_TASK, task:task})
+        })
+        .catch((error)=>{
+            dispatch({type:actionTypes.ERROR, error: error.message})
+        });
     }
 }
 
@@ -18,6 +34,9 @@ export function addTask(newTask){
         .then((task)=>{
             dispatch({type:actionTypes.ADD_TASK, task:task})
         })
+        .catch((error)=>{
+            dispatch({type:actionTypes.ERROR, error: error.message})
+        });
     }
 }
 
@@ -28,6 +47,9 @@ export function deleteTask(taskId){
         .then(()=>{
             dispatch({type:actionTypes.DELETE_TASK, taskId: taskId})
         })
+        .catch((error)=>{
+            dispatch({type:actionTypes.ERROR, error: error.message})
+        });
     }
 }
 
@@ -38,15 +60,21 @@ export function deleteTasks(taskIds){
         .then(()=>{
             dispatch({type:actionTypes.DELETE_TASKS, taskIds: taskIds})
         })
+        .catch((error)=>{
+            dispatch({type:actionTypes.ERROR, error: error.message})
+        });
     }
 }
 
-export function editTask(data){
+export function editTask(data, from){
     return(dispatch)=>{
         dispatch({type:actionTypes.PENDING});
         request(`http://localhost:3001/task/${data._id}`,'PUT', data)
         .then((editedTask)=>{
-            dispatch({type:actionTypes.EDIT_TASK, editedTask: editedTask})
+            dispatch({type:actionTypes.EDIT_TASK, editedTask: editedTask, from: from})
         })
+        .catch((error)=>{
+            dispatch({type:actionTypes.ERROR, error: error.message})
+        });
     }
 }
