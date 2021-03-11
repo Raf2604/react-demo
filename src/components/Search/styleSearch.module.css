@@ -1,0 +1,10 @@
+.btns{
+    display: inline-grid;
+    width: 105px;
+}
+.titleDate{
+    width: 130px;
+}
+.dateBlock{
+    display: flex;
+}

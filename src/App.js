@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
+import {Router, Route, Switch, Redirect} from 'react-router-dom';
 import NavMenu from './components/NavMenu/NavMenu';
 import ToDo from './components/pages/ToDo/ToDo.jsx';
 import About from './components/pages/About/About';
@@ -12,6 +12,7 @@ import {connect} from 'react-redux';
 import Spinner from './components/Spinner/Spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {history} from './helpers/history';
 
 function App(props) {
 
@@ -43,7 +44,7 @@ function App(props) {
 
   return (
     <div className="App">
-      <BrowserRouter>
+      <Router history={history}>
         <NavMenu/>
         <Switch>
           <Route
@@ -78,7 +79,7 @@ function App(props) {
           />
           <Redirect to="/not-found"/>
         </Switch>
-      </BrowserRouter>
+      </Router>
       { props.spinnerShow && <Spinner/> } 
       <ToastContainer/>
     </div>
