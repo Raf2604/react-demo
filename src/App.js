@@ -8,6 +8,8 @@ import About from './components/pages/About/About';
 import Contact from './components/pages/Contact/Contact';
 import NotFound from './components/pages/NotFound/NotFound';
 import SingleTask from './components/pages/SingleTask/SingleTask';
+import Login from './components/pages/Login/Login';
+import Register from './components/pages/Register/Register';
 import {connect} from 'react-redux';
 import Spinner from './components/Spinner/Spinner';
 import { ToastContainer, toast } from 'react-toastify';
@@ -59,6 +61,16 @@ function App(props) {
           <Route
           path="/contact"
           component={Contact}
+          exact
+          />
+          <Route
+          path="/register"
+          component={Register}
+          exact
+          />
+          <Route
+          path="/login"
+          component={Login}
           exact
           />
           <Route

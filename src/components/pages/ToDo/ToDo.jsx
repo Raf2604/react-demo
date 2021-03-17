@@ -70,7 +70,7 @@ class ToDo extends Component {
     };
 
     selectAll = () => {
-        const selectAllTasks = this.state.tasks.map((task) => task._id);
+        const selectAllTasks = this.props.tasks.map((task) => task._id);
         this.setState({
             selectedTasks: new Set(selectAllTasks)
         })
@@ -96,7 +96,6 @@ class ToDo extends Component {
     render() {
         const task = this.props.tasks.map((elem) => {
             return <Col key={elem._id} className={styles.marginTop}
-                xl={2}
                 lg={3}
                 md={4}
                 sm={6}

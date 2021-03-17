@@ -97,15 +97,23 @@ export default function reducer(state=defaultState,action){
       }    
 
       case actionTypes.EDIT_TASK:{
+        let message = 'Task edited successfully!!'
+        if(action.status === 'active'){
+          message = 'The task is active now!!';
+        }else{
+          message = 'You have completed the task!!';
+        }
+
         if(action.from === 'singleTask'){
           return {
             ...state,
             task: action.editedTask,
             editSingleTaskSuccess: true,
             spinnerShow: false,
-            successMessage: 'Task edited successfully!!!'
+            successMessage: message
           }
         }
+        
         const tasks = [...state.tasks];
         const editedId = tasks.findIndex((task)=> task._id === action.editedTask._id);
         tasks[editedId] = action.editedTask
@@ -114,7 +122,7 @@ export default function reducer(state=defaultState,action){
           tasks: tasks,
           editTaskSuccess: true,
           spinnerShow: false,
-          successMessage: 'Task edited successfully!!'
+          successMessage: message
         }
       }
 

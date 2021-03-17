@@ -1,11 +1,11 @@
 import { React, Component } from 'react';
 import { Container, Row, Col, Card,Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faEdit, faCheck, faRedo } from '@fortawesome/free-solid-svg-icons';
 import { formatDate } from "../../../helpers/utils";
 import Edit from '../../Edit';
 import {connect} from 'react-redux';
-import {getTask, deleteTask} from '../../../store/action';
+import {getTask, deleteTask, editTask} from '../../../store/action';
 
 class SingleTask extends Component{
     state={
@@ -36,7 +36,7 @@ class SingleTask extends Component{
     }
 
     render(){
-        const {task} = this.props;
+        const {task, editTask} = this.props;
         return(
             <div>
                 <Container className='text-center'>
@@ -48,7 +48,26 @@ class SingleTask extends Component{
                         <Card.Body>
                             <Card.Title>{task.title}</Card.Title>
                             <Card.Text>Description: {task.description}</Card.Text>
+                            <Card.Text>Status: {formatDate(task.status)}</Card.Text>
+                            <Card.Text>Created at: {formatDate(task.created_at)}</Card.Text>
                             <Card.Text>Date: {formatDate(task.date)}</Card.Text>
+                            {
+                                task.status === "active" ?
+                                <Button  
+                                    className={"m-1"}
+                                    variant="success" 
+                                    onClick={() => editTask({_id: task._id, status: "done"}, "singleTask")}
+                                >
+                                    <FontAwesomeIcon icon={faCheck} />
+                                </Button>:
+                                <Button  
+                                    className={"m-1"} 
+                                    variant="dark" 
+                                    onClick={() => editTask({_id: task._id, status: "active"}, "singleTask")}
+                                >
+                                    <FontAwesomeIcon icon={faRedo} />
+                                </Button>
+                            }
                             <Button  
                                 className={"m-1"} 
                                 variant="warning" 
@@ -94,7 +113,8 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = {
     getTask: getTask,
-    deleteTask: deleteTask
+    deleteTask: deleteTask,
+    editTask: editTask
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleTask)
