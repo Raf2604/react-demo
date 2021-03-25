@@ -1,7 +1,6 @@
 import decode from 'jwt-decode';
 import {store} from '../store/store.js';
 import {LOGOUT} from '../store/actionTypes';
-import {PENDING} from '../store/actionTypes';
 import {history} from '../helpers/history';
 
 export function checkLoginStatus(){
