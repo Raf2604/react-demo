@@ -79,7 +79,7 @@ export function editTask(data, from){
         dispatch({type:actionTypes.PENDING});
         request(`${apiHost}/task/${data._id}`,'PUT', data)
         .then((editedTask)=>{
-            dispatch({type:actionTypes.EDIT_TASK, editedTask: editedTask, from: from})
+            dispatch({type:actionTypes.EDIT_TASK, editedTask: editedTask, from: from, status: data.status})
         })
         .catch((error)=>{
             dispatch({type:actionTypes.ERROR, error: error.message})

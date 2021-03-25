@@ -6,12 +6,15 @@
     border:1px solid #bb0000;
 }
 .btnYellow{
-    position: absolute;
-    bottom: 10px;
     left: 70px;
 }
 .btnRed{
+    left: 124px;
+}
+.btnStatus{
+    left: 18px;
+}
+.btnStatus, .btnRed, .btnYellow{
     position: absolute;
     bottom: 10px;
-    left: 18px;
 }
