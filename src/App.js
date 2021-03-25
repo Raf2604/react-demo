@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Router, Route, Switch, Redirect} from 'react-router-dom';
+import {Router, Switch, Redirect, Route} from 'react-router-dom';
 import NavMenu from './components/NavMenu/NavMenu';
 import ToDo from './components/pages/ToDo/ToDo.jsx';
 import About from './components/pages/About/About';
@@ -15,6 +15,7 @@ import Spinner from './components/Spinner/Spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {history} from './helpers/history';
+import AuthRoute from './components/AuthRoute';
 
 const toastStyle = {
   position: "bottom-left",
@@ -24,7 +25,7 @@ const toastStyle = {
   pauseOnHover: true,
   draggable: true,
   progress: undefined,
-  }
+}
 
 function App(props) {
 
@@ -43,16 +44,18 @@ function App(props) {
       <Router history={history}>
         <NavMenu/>
         <Switch>
-          <Route
-          path="/"
-          component={ToDo}
+          <AuthRoute 
+          type="private"
+          path='/'
+          component = {ToDo}
           exact
-          />
-          <Route
+         />
+          <AuthRoute
+          type="private"
           path="/home"
           component={ToDo}
           exact
-          />
+          /> 
           <Route
           path="/about"
           component={About}
@@ -63,17 +66,20 @@ function App(props) {
           component={Contact}
           exact
           />
-          <Route
+          <AuthRoute
+          type="public"
           path="/register"
           component={Register}
           exact
           />
-          <Route
+          <AuthRoute
+          type="public"
           path="/login"
           component={Login}
           exact
           />
-          <Route
+          <AuthRoute
+          type="private"
           path="/task/:taskId/"
           component={SingleTask}
           exact

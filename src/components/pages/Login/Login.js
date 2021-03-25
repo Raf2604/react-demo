@@ -2,8 +2,10 @@ import React, {useState} from "react";
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import styles from './stylesLogin.module.css';
 import {Link} from 'react-router-dom';
+import {login} from '../../../store/action';
+import {connect} from 'react-redux';
 
-function Login(){
+function Login(props){
     const [values, setValues] = useState({
         email:'',
         password:''
@@ -61,7 +63,7 @@ function Login(){
         })
 
         if(valid){
-            console.log(values);
+            props.login(values);
         }
     }
 
@@ -115,4 +117,9 @@ function Login(){
         </Container>
     )
 }
-export default Login;
+
+const mapDispatchToProps = {
+    login: login
+}
+
+export default connect(null, mapDispatchToProps)(Login);

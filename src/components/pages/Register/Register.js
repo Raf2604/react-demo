@@ -2,18 +2,20 @@ import React, {useState} from "react";
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import styles from './stylesRegister.module.css';
 import {Link} from 'react-router-dom';
+import {register} from '../../../store/action';
+import {connect} from 'react-redux';
 
-function Register(){
+function Register(props){
     const [values, setValues] = useState({
         name: '',
-        surename: '',
+        surname: '',
         email: '',
         password: '',
         confirmPassword: ''
     })
     const [errors, setErrors] = useState({
         name: null,
-        surename: null,
+        surname: null,
         email: null,
         password: null,
         confirmPassword: null
@@ -38,7 +40,7 @@ function Register(){
     }
 
     const handleSubmit = ()=>{
-        const {name, surename, email, password, confirmPassword} = values;
+        const {name, surname, email, password, confirmPassword} = values;
         let valid = true;
 
         let nameMessage = null;
@@ -47,10 +49,10 @@ function Register(){
             nameMessage = 'Name is required';
         }
 
-        let surenameMessage = null;
-        if(!surename){
+        let surnameMessage = null;
+        if(!surname){
             valid = false;
-            surenameMessage = 'Surename is required';
+            surnameMessage = 'surname is required';
         }
         
         let emailMessage = null;
@@ -99,14 +101,14 @@ function Register(){
 
         setErrors({
             name: nameMessage,
-            surename: surenameMessage,
+            surname: surnameMessage,
             email: emailMessage,
             password: passwordMessage,
             confirmPassword: confirmPasswordMessage
         })
 
         if(valid){
-            console.log(values);
+            props.register(values);
         }
     }
 
@@ -133,16 +135,16 @@ function Register(){
 
                     <Form.Group>
                         <Form.Control 
-                        className={errors.surename ? styles.errorBorder: ""}
-                        name="surename" 
+                        className={errors.surname ? styles.errorBorder: ""}
+                        name="surname" 
                         type='text'
-                        placeholder="Enter your surename" 
-                        value={values.surename}
+                        placeholder="Enter your surname" 
+                        value={values.surname}
                         onChange={handleChange}
                         onKeyPress={disableSpace}
                         />
                         <Form.Text className="text-danger">
-                            {errors.surename}
+                            {errors.surname}
                         </Form.Text>
                     </Form.Group>
 
@@ -205,4 +207,9 @@ function Register(){
         </Container>
     )
 }
-export default Register;
+
+const mapDispatchToProps = {
+    register: register
+}
+
+export default connect(null, mapDispatchToProps)(Register);

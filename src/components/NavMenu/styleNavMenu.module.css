@@ -10,3 +10,17 @@
     text-decoration: none;
     color: rgb(211, 211, 211);
 }
+.logoutBtn{
+    background: none;
+    padding: 0px;
+    border: none;
+    font-size: 18px;
+    color: #FFF;
+}
+.logoutBtn:hover{
+    background: none;
+    color: rgb(211, 211, 211);
+}
+.logoutBtn:focus{
+    outline: none;
+}

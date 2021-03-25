@@ -1,8 +1,16 @@
-export default function request(url, method="GET", body){   
+import {getToken} from './auth';
+
+export default async function request(url, method="GET", body){  
+    const token = await getToken();
+    if(!token){
+        return Promise.resolve(null);
+    }
+
     const parameters = {
         method: method,
         headers: {
-            "Content-Type": 'application/json'
+            "Content-Type": 'application/json',
+            "Authorization": `Bearer ${token}`
         },
     }
     if(body){
