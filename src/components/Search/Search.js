@@ -6,7 +6,6 @@ import styles from './styleSearch.module.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as options from './options';
-import {formatDate} from '../../helpers/utils';
 import {getTasks} from '../../store/action';
 
 function Search(props){
@@ -44,7 +43,7 @@ function Search(props){
     
         for(let key in dates){
             if(dates[key]){
-                params[key] = formatDate(dates[key].toISOString());
+                params[key] = dates[key].toLocaleDateString();
             }
         }
         props.getTasks(params);

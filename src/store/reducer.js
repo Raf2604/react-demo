@@ -1,4 +1,5 @@
 import * as actionTypes from '../store/actionTypes';
+import { checkLoginStatus } from '../helpers/auth';
 
 const defaultState={
     tasks: [],
@@ -9,7 +10,8 @@ const defaultState={
     editSingleTaskSuccess: false,
     spinnerShow: false,
     successMessage: null,
-    errorMessage: null
+    errorMessage: null,
+    isAuthenticated: checkLoginStatus()
 } 
 export default function reducer(state=defaultState,action){
     switch(action.type){
@@ -123,6 +125,30 @@ export default function reducer(state=defaultState,action){
           editTaskSuccess: true,
           spinnerShow: false,
           successMessage: message
+        }
+      }
+
+      case actionTypes.REGISTER_SUCCESS:{
+        return{
+          ...state,
+          spinnerShow: false,
+          successMessage: 'Congrats! You are a new user now!'
+        }
+      }
+
+      case actionTypes.LOGIN_SUCCESS:{
+        return{
+          ...state,
+          spinnerShow: false,
+          isAuthenticated: true
+        }
+      }
+
+      case actionTypes.LOGOUT:{
+        return{
+          ...state,
+          spinnerShow: false,
+          isAuthenticated: false
         }
       }
 
