@@ -9,3 +9,5 @@ export const EDIT_TASK = 'EDIT_TASK';
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGOUT = "LOGOUT";
+export const SEND_MESSAGE = "SEND_MESSAGE";
+export const GET_USER_INFO = "GET_USER_INFO";

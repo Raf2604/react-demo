@@ -24,3 +24,11 @@
 .logoutBtn:focus{
     outline: none;
 }
+.userInfo{
+    color: #FFF;
+    font-size: 18px;
+}
+.userInfoIcon{
+    color: #FFF;
+    margin-right: 5px;
+}

@@ -122,3 +122,26 @@ export function register(data){
         });
     }
 }
+
+export function sendMessage(values){
+    return(dispatch)=>{
+        dispatch({type:actionTypes.PENDING});
+        requestWithoutToken(`${apiHost}/form`,'POST', values)
+        .then(()=>{
+            dispatch({type:actionTypes.SEND_MESSAGE})
+        })
+        .catch((error)=>{
+            dispatch({type:actionTypes.ERROR, error: error.message})
+        });
+    }
+}
+
+export function getUserInfo(){   
+     return(dispatch)=>{
+        request(`${apiHost}/user`)
+        .then((user)=>{
+            if(!user){return} 
+            dispatch({type:actionTypes.GET_USER_INFO, user: user})
+        })
+    }
+}

@@ -11,9 +11,12 @@ const defaultState={
     spinnerShow: false,
     successMessage: null,
     errorMessage: null,
-    isAuthenticated: checkLoginStatus()
+    isAuthenticated: checkLoginStatus(),
+    sendMessageSuccess: false,
+    userName: "",
+    userSurname: ""
 } 
-export default function reducer(state=defaultState,action){
+export default function reducer(state=defaultState, action){
     switch(action.type){
 
       case actionTypes.PENDING:{
@@ -25,7 +28,8 @@ export default function reducer(state=defaultState,action){
           editSingleTaskSuccess: false,
           spinnerShow: true,
           successMessage: null,
-          errorMessage: null
+          errorMessage: null,
+          sendMessageSuccess: false
         }
       }
 
@@ -149,6 +153,24 @@ export default function reducer(state=defaultState,action){
           ...state,
           spinnerShow: false,
           isAuthenticated: false
+        }
+      }
+
+      case actionTypes.SEND_MESSAGE:{
+        return{
+          ...state,
+          spinnerShow: false,
+          successMessage: 'Your message was sent successfully!!',
+          sendMessageSuccess: true
+        }
+      }
+
+      case actionTypes.GET_USER_INFO:{
+        return{
+          ...state,
+          spinnerShow: false,
+          userName: action.user.name,
+          userSurname: action.user.surname
         }
       }
 
