@@ -1,8 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './stylesContact.module.css';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {sendMessage} from '../../../store/action';
 
-export default function Contact(){
+function Contact(props){
+
+    useEffect(()=>{
+        if(props.sendMessageSuccess){
+            setValues({
+                name:'',
+                email:'',
+                message:'' 
+            })
+        }
+    },[props.sendMessageSuccess])
+
     const [values, setValues] = useState({
         name:'',
         email:'',
@@ -65,33 +78,7 @@ export default function Contact(){
         let errorsExist = !errorsArray.every(element => element===null);
 
         if(valuesExist && !errorsExist){
-                fetch('http://localhost:3001/form', {
-                method: 'POST',
-                body: JSON.stringify(values),
-                headers: {
-                    "Content-Type": 'application/json'
-                }
-            })
-            .then(async(response) => {
-                const res = await response.json();
-                if(response.status >= 400 && response.status <= 599){
-                    if(res.error){
-                        throw res.error;
-                    }
-                    else {
-                        throw new Error('Something went wrong!!!');
-                    }
-                }
-                setValues({
-                    name:'',
-                    email:'',
-                    message:''
-                })
-                alert('Your message was successfully sent');
-            })
-            .catch((error)=>{
-                console.log('catch error', error);
-            });
+            props.sendMessage(values);
         }
 
         if(!valuesExist && !errorsExist){
@@ -169,3 +156,15 @@ export default function Contact(){
         
     );
 };
+
+const mapStateToProps = (state)=>{
+    return {
+        sendMessageSuccess: state.sendMessageSuccess
+    }
+}
+
+const mapDispatchToProps = {
+    sendMessage: sendMessage
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contact)

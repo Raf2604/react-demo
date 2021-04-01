@@ -16,6 +16,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {history} from './helpers/history';
 import AuthRoute from './components/AuthRoute';
+import Footer from './components/Footer/Footer';
 
 const toastStyle = {
   position: "bottom-left",
@@ -91,6 +92,7 @@ function App(props) {
           />
           <Redirect to="/not-found"/>
         </Switch>
+        <Footer/>
       </Router>
       { props.spinnerShow && <Spinner/> } 
       <ToastContainer/>

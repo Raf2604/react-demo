@@ -127,6 +127,7 @@ function Register(props){
                         value={values.name}
                         onChange={handleChange}
                         onKeyPress={disableSpace}
+                        maxLength="15"
                         />
                         <Form.Text className="text-danger">
                             {errors.name}
@@ -142,6 +143,7 @@ function Register(props){
                         value={values.surname}
                         onChange={handleChange}
                         onKeyPress={disableSpace}
+                        maxLength="15"
                         />
                         <Form.Text className="text-danger">
                             {errors.surname}

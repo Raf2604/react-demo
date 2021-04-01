@@ -1,0 +1,42 @@
+footer{
+    background:#343a40;
+    padding: 15px 0px;
+}
+footer button{
+    background: none;
+    border-style: none;
+    color: #fff;
+    margin-top: 5px;
+}
+footer button:focus{
+    outline: none;
+}
+footer img{
+    width: 20px;
+    margin-right: 6px;
+}
+footer>div:first-child{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+footer>div:first-child>ul:last-child li{
+    display: flex;
+    align-items: center;
+}
+footer>div:last-child{
+    color:#fff;
+    text-align: center;
+    font-size: 13px;
+}
+footer ul li{
+    list-style-type: none;
+    margin-top: 5px;
+}
+a{
+    color: #fff;
+}
+a:hover{
+    color: #fff;
+    text-decoration: none;
+}
