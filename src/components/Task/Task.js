@@ -19,7 +19,7 @@ class Task extends PureComponent{
         const {data, onDelete, disabled, selected, onEdit, editTask} = this.props;
         return(
                 <Card className={`${styles.tasks} ${selected ? styles.select : ""} `}>
-                    <Card.Body>
+                    <Card.Body className={styles.taskBody}>
                         <input 
                             type="checkbox" 
                             onChange={this.handleChange}
@@ -29,10 +29,11 @@ class Task extends PureComponent{
                         to={`/task/${data._id}`}>
                             <Card.Title>{textCut(data.title, 30)}</Card.Title>
                         </Link>  
-                        <Card.Text>Description: {textCut(data.description, 60)}</Card.Text>
-                        <Card.Text>Status: {formatDate(data.status)}</Card.Text>
-                        <Card.Text>Created at: {formatDate(data.created_at)}</Card.Text>
-                        <Card.Text>Date: {formatDate(data.date)}</Card.Text>
+                        <Card.Text><span>Description: </span>{textCut(data.description, 60)}</Card.Text>
+                        <Card.Text><span>Status: </span>{formatDate(data.status)}</Card.Text>
+                        <Card.Text><span>Created at: </span>{formatDate(data.created_at)}</Card.Text>
+                        <Card.Text><span>Date: </span>{formatDate(data.date)}</Card.Text>
+                        <div className={styles.buttons}>
                         {
                             data.status === "active" ?
                             <Button  
@@ -57,6 +58,7 @@ class Task extends PureComponent{
                             className={`m-1 ${styles.btnYellow}`}
                             disabled={disabled}  
                             variant="warning" 
+                            style={{color: "#fff"}}
                             onClick={() => onEdit(data)}
                         >
                             <FontAwesomeIcon icon={faEdit} />
@@ -69,6 +71,7 @@ class Task extends PureComponent{
                         >
                             <FontAwesomeIcon icon={faTrashAlt} />
                         </Button>
+                        </div>
                     </Card.Body>
                 </Card>
         );

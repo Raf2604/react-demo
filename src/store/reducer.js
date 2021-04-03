@@ -106,7 +106,7 @@ export default function reducer(state=defaultState, action){
         let message = 'Task edited successfully!!'
         if(action.status === 'active'){
           message = 'The task is active now!!';
-        }else{
+        }else if(action.status === 'done'){
           message = 'You have completed the task!!';
         }
 

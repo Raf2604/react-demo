@@ -15,7 +15,7 @@ function NavMenu(props){
     })
 
     return(
-      <Navbar bg="dark" variant="dark">
+      <Navbar className={styles.menuResponse} bg="dark" variant="dark">
         <Nav className="mr-auto w-100 justify-content-between">
           <div>
             {props.isAuthenticated &&
@@ -41,7 +41,7 @@ function NavMenu(props){
             <div>
               <FontAwesomeIcon icon={faUserAlt} className={styles.userInfoIcon}/>
               <span className={styles.userInfo}>{`${props.userName} `}</span>
-              <span className={styles.userInfo}>{`${props.userSurname} `}</span>
+              <span className={styles.userInfo}>{`${props.userSurname} │ `}</span>
               <button className={styles.logoutBtn}
               onClick={() => logout()}
               >

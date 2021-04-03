@@ -113,7 +113,7 @@ function Register(props){
     }
 
     return(
-        <Container className="mt-5">
+        <Container className={styles.registerContent}>
             <Row className="justify-content-center">
                 <Col xs={12} sm={8} md={6}>
                     <h2>Register</h2>

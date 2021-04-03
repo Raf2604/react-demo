@@ -1,5 +1,5 @@
 .active{
-    color: red !important;
+    color: #ffdb4b !important;
 }
 .menuItem{
     color: whitesmoke;
@@ -31,4 +31,8 @@
 .userInfoIcon{
     color: #FFF;
     margin-right: 5px;
+}
+@media screen and (max-width: 600px) { 
+    .menuResponse{display:flex;flex-direction: column !important;align-items: center;}
+    .menuResponse>div{display:flex;flex-direction: column !important;align-items: center;}
 }

@@ -25,7 +25,7 @@ class EditTaskModal extends Component {
 
     addFromKeyboard = (event) => {
         if (event.key === "Enter") {
-            this.creatTask();
+            this.changeTask();
         }
     }
 

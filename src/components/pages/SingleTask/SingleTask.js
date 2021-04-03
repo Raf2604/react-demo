@@ -3,6 +3,7 @@ import { Container, Row, Col, Card,Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit, faCheck, faRedo } from '@fortawesome/free-solid-svg-icons';
 import { formatDate } from "../../../helpers/utils";
+import styles from "./stylesSingleTask.module.css";
 import Edit from '../../Edit';
 import {connect} from 'react-redux';
 import {getTask, deleteTask, editTask} from '../../../store/action';
@@ -39,49 +40,52 @@ class SingleTask extends Component{
         const {task, editTask} = this.props;
         return(
             <div>
-                <Container className='text-center'>
-                    <Row>
-                        <Col xs={12}>
+                <Container className={styles.singleTaskContent}>
+                    <Row className="justify-content-center">
+                        <Col md={8} sm={10} xs={12}>
             {
                 task?
                     <Card>
                         <Card.Body>
-                            <Card.Title>{task.title}</Card.Title>
-                            <Card.Text>Description: {task.description}</Card.Text>
-                            <Card.Text>Status: {formatDate(task.status)}</Card.Text>
-                            <Card.Text>Created at: {formatDate(task.created_at)}</Card.Text>
-                            <Card.Text>Date: {formatDate(task.date)}</Card.Text>
-                            {
-                                task.status === "active" ?
-                                <Button  
-                                    className={"m-1"}
-                                    variant="success" 
-                                    onClick={() => editTask({_id: task._id, status: "done"}, "singleTask")}
-                                >
-                                    <FontAwesomeIcon icon={faCheck} />
-                                </Button>:
+                            <Card.Title><h4>{task.title}</h4></Card.Title>
+                            <Card.Text><span>Description:</span> {task.description}</Card.Text>
+                            <Card.Text><span>Status:</span> {formatDate(task.status)}</Card.Text>
+                            <Card.Text><span>Created at:</span> {formatDate(task.created_at)}</Card.Text>
+                            <Card.Text><span>Date:</span> {formatDate(task.date)}</Card.Text>
+                            <div className={styles.btns}>
+                                {
+                                    task.status === "active" ?
+                                    <Button  
+                                        className={"m-1"}
+                                        variant="success" 
+                                        onClick={() => editTask({_id: task._id, status: "done"}, "singleTask")}
+                                    >
+                                        <FontAwesomeIcon icon={faCheck} />
+                                    </Button>:
+                                    <Button  
+                                        className={"m-1"} 
+                                        variant="dark" 
+                                        onClick={() => editTask({_id: task._id, status: "active"}, "singleTask")}
+                                    >
+                                        <FontAwesomeIcon icon={faRedo} />
+                                    </Button>
+                                }
                                 <Button  
                                     className={"m-1"} 
-                                    variant="dark" 
-                                    onClick={() => editTask({_id: task._id, status: "active"}, "singleTask")}
+                                    variant="warning" 
+                                    style={{color: "#fff"}}
+                                    onClick={this.handleEditSingleTask}
                                 >
-                                    <FontAwesomeIcon icon={faRedo} />
+                                    <FontAwesomeIcon icon={faEdit} />
                                 </Button>
-                            }
-                            <Button  
-                                className={"m-1"} 
-                                variant="warning" 
-                                onClick={this.handleEditSingleTask}
-                            >
-                                <FontAwesomeIcon icon={faEdit} />
-                            </Button>
-                            <Button  
-                                className={"m-1"}
-                                variant="danger" 
-                                onClick={this.handleDeleteSingleTask}
-                            >
-                                <FontAwesomeIcon icon={faTrashAlt} />
-                            </Button>
+                                <Button  
+                                    className={"m-1"}
+                                    variant="danger" 
+                                    onClick={this.handleDeleteSingleTask}
+                                >
+                                    <FontAwesomeIcon icon={faTrashAlt} />
+                                </Button>
+                            </div>
                         </Card.Body>
                     </Card>:
                 <p>Loading...</p>
