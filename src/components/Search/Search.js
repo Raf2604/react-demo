@@ -7,8 +7,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as options from './options';
 import {getTasks} from '../../store/action';
+import searchIcon from './icon/searchIcon.svg'
 
 function Search(props){
+
+    const[filter, setShowFilter] = useState({
+        showFilters:false
+    });
 
     const [status, setStatus] = useState({
         value: ''
@@ -50,11 +55,12 @@ function Search(props){
     }
 
     return(
-        <div>
+        <>
             <InputGroup className="mb-3">
 
                 <FormControl 
                     placeholder="Search..."
+                    style={{height:"40px"}}
                     onChange = {(event)=>setSearch(event.target.value)}
                 />
 
@@ -94,29 +100,38 @@ function Search(props){
 
                 <InputGroup.Append>  
                     <Button 
-                        variant="outline-primary"
-                        className={styles.btns}
+                        variant="primary"
                         onClick={handleSubmit}
-                    >Search</Button>
+                    >
+                        <img src={searchIcon} alt=""/>
+                    </Button>
                 </InputGroup.Append>
 
             </InputGroup>
 
-            {
-                options.dateOptions.map((option,index)=>
-                    <div 
-                        key = {index} 
-                        className={styles.dateBlock}
-                    >
-                        <p className={styles.titleDate}>{option.label}</p>
-                        <DatePicker 
-                            selected={dates[option.value]}
-                            onChange={(value)=> handleChangeDate(value, option.value)}
-                        />
-                    </div>
-            )}
-
-        </div>
+            {filter.showFilters ? 
+            <div>
+                <div className={styles.datePickers}>
+                {
+                    options.dateOptions.map((option,index)=>
+                        <div 
+                            key = {index} 
+                            className={styles.dateBlock}
+                        >
+                            <p className={styles.titleDate}>{option.label}</p>
+                            <DatePicker
+                                selected={dates[option.value]}
+                                onChange={(value)=> handleChangeDate(value, option.value)}
+                            />
+                        </div>
+                )}
+                </div>
+                <div className={styles.hideShow} onClick={()=>{setShowFilter({showFilters:false})}}>Hide filters</div>
+            </div>: 
+            <div className={styles.hideShow} onClick={()=>{setShowFilter({showFilters:true})}}>More filters</div>
+        }
+            
+        </>
     )
 }
 

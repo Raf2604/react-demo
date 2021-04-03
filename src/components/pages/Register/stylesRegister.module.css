@@ -3,7 +3,12 @@ h2{
     text-align: center;
     margin-bottom: 20px;
 }
-
+.registerContent{
+    padding: 65px 35px;
+    min-height: calc(100vh - 224px);
+    background: #f7f7f7;
+    max-width: 100%;
+}
 .loginBtn{
     padding: 8px 40px;
     margin-left: 50%;

@@ -92,8 +92,8 @@ function Contact(props){
 
     return(
         <Container className={styles.centerDiv}>
-            <Row className="justify-content-center">
-                <Col xs={6}>
+            <Row className="justify-content-center mr-0 ml-0">
+                <Col lg={8} md={10} xs={12}>
                     <h2>Contact us</h2>
                      <Form.Group>
                         <Form.Control

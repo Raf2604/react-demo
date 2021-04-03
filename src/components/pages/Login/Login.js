@@ -68,9 +68,9 @@ function Login(props){
     }
 
     return(
-        <Container className="mt-5">
+        <Container className={styles.loginContent}>
             <Row className="justify-content-center">
-                <Col xs={12} sm={8} md={6}>
+                <Col md={6} sm={8} xs={12}>
                     <h2>Login</h2>
 
                     <Form.Group>

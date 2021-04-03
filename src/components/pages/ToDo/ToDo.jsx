@@ -8,6 +8,10 @@ import Confirm from '../../Confirm';
 import Edit from '../../Edit';
 import {connect} from 'react-redux';
 import {getTasks, deleteTask, deleteTasks} from '../../../store/action';
+import selectIcon from './icons/selectIcon.svg';
+import xIcon from './icons/xIcon.svg';
+import removeIcon from './icons/removeIcon.svg';
+import addIcon from './icons/addIcon.svg';
 
 class ToDo extends Component {
     state = {
@@ -96,10 +100,9 @@ class ToDo extends Component {
     render() {
         const task = this.props.tasks.map((elem) => {
             return <Col key={elem._id} className={styles.marginTop}
-                lg={3}
-                md={4}
-                sm={6}
-                xs={12}
+                xs={12} 
+                sm={12} 
+                md={10}
                 >
                 <Task
                     data={elem}
@@ -113,63 +116,60 @@ class ToDo extends Component {
         })
 
         return (
-            <div>
+            <div className={styles.todoContainer}>
                 <h1 className={styles.title}>ToDo List</h1>
                 <Container>
-                    <Row>
-                        <Col>
+                    <Row className="justify-content-center">
+                        <Col xs={12} sm={12} md={10}>
                             <Search/>
                         </Col>
                     </Row>
-                    <Row className="justify-content-center">
-                        <Col className={`${styles.taskButtons} `}>
+                    <Row className="justify-content-center mt-2" >
+                        <Col className={`${styles.taskButtons} `} xs={8} sm={10} md={5} >
+                        <Button 
+                            disabled={
+                                !this.props.tasks.length || 
+                                this.props.tasks.length === this.state.selectedTasks.size
+                            }
+                            variant="warning" 
+                            className="mb-3 justify-content-center" 
+                            onClick={this.selectAll}                           
+                        >
+                            <img src={selectIcon} alt="" title="Select all"/>
+                        </Button>
+                        <Button 
+                            disabled={
+                                !this.props.tasks.length ||
+                                !this.state.selectedTasks.size
+                            } 
+                            variant="warning" 
+                            className="mb-3 justify-content-center" 
+                            onClick={this.deselectAll}                           
+                        >
+                            <img src={xIcon} alt="" title="Deselect all"/>
+                        </Button>
+                        <Button 
+                            disabled={!this.state.selectedTasks.size} 
+                            variant="danger" 
+                            className="mb-3 justify-content-center" 
+                            onClick={this.toggleConfirm}                               
+                        >
+                            <img src={removeIcon} alt="" title="Delete"/>
+                        </Button>                 
+                        </Col>
+                        <Col className={`${styles.leftTaskButtons} `} xs={4} sm={2} md={5}>
                             <Button 
                                 disabled={!!this.state.selectedTasks.size}
                                 variant="primary" 
                                 className="mb-3 justify-content-center" 
                                 onClick={this.toggleNewTask}                           
                             >
-                            Add task
-                            </Button>
+                                <img src={addIcon} alt="" title="Add"/>
+                            </Button> 
                         </Col>
-                        <Col className={`${styles.taskButtons} `}>
-                            <Button 
-                                disabled={
-                                    !this.props.tasks.length || 
-                                    this.props.tasks.length === this.state.selectedTasks.size
-                                }
-                                variant="warning" 
-                                className="mb-3 justify-content-center" 
-                                onClick={this.selectAll}                           
-                            >
-                            Select All
-                            </Button>
-                        </Col>
-                        <Col className={`${styles.taskButtons} `}>
-                            <Button 
-                                 disabled={
-                                    !this.props.tasks.length ||
-                                    !this.state.selectedTasks.size
-                                } 
-                                variant="warning" 
-                                className="mb-3 justify-content-center" 
-                                onClick={this.deselectAll}                           
-                            >
-                            Deselect all
-                            </Button>
-                        </Col>
-                        <Col className={`${styles.taskButtons} `}>
-                            <Button 
-                                disabled={!this.state.selectedTasks.size} 
-                                variant="danger" 
-                                className="mb-3 justify-content-center" 
-                                onClick={this.toggleConfirm}                               
-                            >
-                            Delete selected
-                            </Button>
-                        </Col>
+
                     </Row>
-                    <Row>
+                    <Row className="justify-content-center">
                         {task}
                     </Row>
                 </Container>  

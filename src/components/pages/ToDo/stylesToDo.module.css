@@ -1,11 +1,28 @@
 .title{
     color: #bb0000;
-    margin: 5px 0px;
+    margin: 12px 0px;
     text-align: center;
+}
+.todoContainer{
+    padding: 20px 35px;
+    min-height: calc(100vh - 224px);
+    background: #f7f7f7;
+    max-width: 100%;
 }
 .taskButtons{
-    text-align: center;
+    max-width: none;
 }
 .marginTop{
-    margin-top:15px;
+    margin-top:10px;
+}
+.leftTaskButtons{
+    max-width: none;
+    justify-content: flex-end;
+    display: flex;
+}
+.taskButtons button{
+    margin-right:5px;
+}
+@media screen and (max-width: 600px) { 
+    .todoContainer{padding: 20px 0px;}
 }

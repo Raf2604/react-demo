@@ -1,14 +1,13 @@
-h2{
-    color:#bb0000;
-    text-align: center;
-}
 .sendBtn{
     padding: 8px 40px;
     margin-left: 50%;
     transform: translateX(-50%);
 }
 .centerDiv{
-    margin-top: 15%;
+    min-height: calc(100vh - 224px);
+    background: #f7f7f7;
+    max-width: 100%;
+    padding: 18px 20px;
 }
 .errorBorder, .errorBorder:focus{
     border:1px solid red;
